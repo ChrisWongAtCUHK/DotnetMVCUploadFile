@@ -11,7 +11,7 @@ public class AspsnippetsController(MvcMovieContext context) : Controller
 
     private readonly MvcMovieContext _context = context;
 
-    // GET: Movies
+    // GET: Aspsnippets
     public async Task<IActionResult> Index(string movieGenre, string searchString)
     {
         if (_context.Movie == null)
@@ -45,7 +45,7 @@ public class AspsnippetsController(MvcMovieContext context) : Controller
         return View(movieGenreVM);
     }
 
-    // GET: Movies/Details/5
+    // GET: Aspsnippets/Details/5
     public async Task<IActionResult> Details(int? id)
     {
         if (id == null)
@@ -63,7 +63,7 @@ public class AspsnippetsController(MvcMovieContext context) : Controller
         return View(movie);
     }
 
-    // GET: Movies/Create
+    // GET: Aspsnippets/Create
     public async Task<IActionResult> Create()
     {
         // Use LINQ to get list of genres.
@@ -77,7 +77,7 @@ public class AspsnippetsController(MvcMovieContext context) : Controller
         return View(movieGenreVM);
     }
 
-    // POST: Movies/Create
+    // POST: Aspsnippets/Create
     // To protect from overposting attacks, enable the specific properties you want to bind to.
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
@@ -93,7 +93,7 @@ public class AspsnippetsController(MvcMovieContext context) : Controller
         return View(mgv.Movie);
     }
 
-    // GET: Movies/Edit/5
+    // GET: Aspsnippets/Edit/5
     public async Task<IActionResult> Edit(int? id)
     {
         if (id == null)
@@ -118,7 +118,7 @@ public class AspsnippetsController(MvcMovieContext context) : Controller
         return View(movieGenreVM);
     }
 
-    // POST: Movies/Edit/5
+    // POST: Aspsnippets/Edit/5
     // To protect from overposting attacks, enable the specific properties you want to bind to.
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
@@ -153,7 +153,7 @@ public class AspsnippetsController(MvcMovieContext context) : Controller
         return View(mgv);
     }
 
-    // GET: Movies/Delete/5
+    // GET: Aspsnippets/Delete/5
     public async Task<IActionResult> Delete(int? id)
     {
         if (id == null)
@@ -171,7 +171,7 @@ public class AspsnippetsController(MvcMovieContext context) : Controller
         return View(movie);
     }
 
-    // POST: Movies/Delete/5
+    // POST: Aspsnippets/Delete/5
     [HttpPost, ActionName("Delete")]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(int id)
