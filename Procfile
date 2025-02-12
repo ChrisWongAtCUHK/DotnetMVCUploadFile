@@ -1,0 +1,1 @@
+web: cd bin/publish; ./DotnetMVC --urls http://0.0.0.0:$PORT
