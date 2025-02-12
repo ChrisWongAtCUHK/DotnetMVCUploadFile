@@ -1,9 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using DotnetMVC.Models;
 
 namespace DotnetMVC.Controllers
@@ -12,7 +7,7 @@ namespace DotnetMVC.Controllers
     {
         public IActionResult Index()
         {
-            SingleFileModel model = new SingleFileModel();
+            SingleFileModel model = new();
             return View(model);
         }
 
@@ -30,7 +25,7 @@ namespace DotnetMVC.Controllers
                     Directory.CreateDirectory(path);
 
                 //get file extension
-                FileInfo fileInfo = new FileInfo(model.File.FileName);
+                FileInfo fileInfo = new(model.File!.FileName);
                 string fileName = model.FileName + fileInfo.Extension;
 
                 string fileNameWithPath = Path.Combine(path, fileName);
@@ -49,7 +44,7 @@ namespace DotnetMVC.Controllers
 
         public IActionResult MultiFile()
         {
-            MultipleFilesModel model = new MultipleFilesModel();
+            MultipleFilesModel model = new();
             return View(model);
         }
 
@@ -60,7 +55,7 @@ namespace DotnetMVC.Controllers
             if (ModelState.IsValid)
             {
                 model.IsResponse = true;
-                if (model.Files.Count > 0)
+                if (model.Files!.Count > 0)
                 {
                     foreach (var file in model.Files)
                     {

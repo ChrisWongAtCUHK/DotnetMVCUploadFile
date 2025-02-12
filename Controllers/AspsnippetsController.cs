@@ -19,62 +19,60 @@ public class AspsnippetsController(ILogger<AspsnippetsController> logger) : Cont
     [HttpPost]
     public IActionResult Create()
     {
-        using (MemoryStream stream = new MemoryStream())
+        using MemoryStream stream = new();
+        // Create a document.
+        using (WordprocessingDocument wordDocument = WordprocessingDocument.Create(stream, WordprocessingDocumentType.Document, true))
         {
-            // Create a document.
-            using (WordprocessingDocument wordDocument = WordprocessingDocument.Create(stream, WordprocessingDocumentType.Document, true))
-            {
-                // Add main document part.
-                MainDocumentPart mainPart = wordDocument.AddMainDocumentPart();
+            // Add main document part.
+            MainDocumentPart mainPart = wordDocument.AddMainDocumentPart();
 
-                // Create document structure.
-                mainPart.Document = new Document();
+            // Create document structure.
+            mainPart.Document = new Document();
 
-                // Create document body.
-                Body body = mainPart.Document.AppendChild(new Body());
+            // Create document body.
+            Body body = mainPart.Document.AppendChild(new Body());
 
-                // Create paragraph.
-                Paragraph paragraph = new Paragraph();
+            // Create paragraph.
+            Paragraph paragraph = new();
 
-                // Creating Run.
-                Run run = this.AddRun("Hi,");
+            // Creating Run.
+            Run run = AddRun("Hi,");
 
-                // Adding Run to Paragraph.
-                paragraph.Append(run);
+            // Adding Run to Paragraph.
+            paragraph.Append(run);
 
-                // Adding Paragraph to Body.
-                body.Append(paragraph);
+            // Adding Paragraph to Body.
+            body.Append(paragraph);
 
-                // Adding new Paragraph.
-                paragraph = new Paragraph();
-                run = this.AddRun("This is ");
-                paragraph.Append(run);
+            // Adding new Paragraph.
+            paragraph = new Paragraph();
+            run = AddRun("This is ");
+            paragraph.Append(run);
 
-                // Adding Text with Bold and Italic.
-                run = this.AddRun("Mudassar Khan", bold: true, italic: true);
-                paragraph.Append(run);
+            // Adding Text with Bold and Italic.
+            run = AddRun("Mudassar Khan", bold: true, italic: true);
+            paragraph.Append(run);
 
-                run = this.AddRun(".");
-                paragraph.Append(run);
+            run = AddRun(".");
+            paragraph.Append(run);
 
-                // Adding Paragraph to Body.
-                body.Append(paragraph);
+            // Adding Paragraph to Body.
+            body.Append(paragraph);
 
-                // Adding Paragraph for Hyperlink.
-                paragraph = new Paragraph();
+            // Adding Paragraph for Hyperlink.
+            paragraph = new Paragraph();
 
-                // Adding Hyperlink to Paragraph.
-                paragraph.Append(this.AddLink(ref mainPart, "aspsnippets", "https://www.aspsnippets.com"));
+            // Adding Hyperlink to Paragraph.
+            paragraph.Append(AddLink(ref mainPart, "aspsnippets", "https://www.aspsnippets.com"));
 
-                // Adding Hyperlink Paragraph to Document Body.
-                body.Append(paragraph);
-            }
-
-            return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "Sample.docx");
+            // Adding Hyperlink Paragraph to Document Body.
+            body.Append(paragraph);
         }
+
+        return File(stream.ToArray(), "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "Sample.docx");
     }
 
-    private Run AddRun(
+    private static Run AddRun(
     string word,
     string font = "Arial",
     string size = "20",
@@ -87,17 +85,17 @@ public class AspsnippetsController(ILogger<AspsnippetsController> logger) : Cont
         Run run = new();
 
         // Create RunFonts instance.
-        RunFonts runFont = new RunFonts { Ascii = font };
+        RunFonts runFont = new() { Ascii = font };
 
         // Create FontSize instance.
         //It must be multiplication twice of the required size.
-        FontSize fontSize = new FontSize { Val = new StringValue(size) };
+        FontSize fontSize = new() { Val = new StringValue(size) };
 
         // Create Text instance.
-        Text text = new Text(word);
+        Text text = new(word);
 
         // Create RunProperties instance.
-        RunProperties runProperties = new RunProperties();
+        RunProperties runProperties = new();
         if (bold)
         {
             // Applying Bold.
@@ -133,20 +131,22 @@ public class AspsnippetsController(ILogger<AspsnippetsController> logger) : Cont
         return run;
     }
 
-    private Hyperlink AddLink(ref MainDocumentPart mainPart, string text, string url)
+    private static Hyperlink AddLink(ref MainDocumentPart mainPart, string text, string url)
     {
         // Adding HyperlinkRelationship with Relationship Id.
         HyperlinkRelationship hyperlinkRelationship = mainPart.AddHyperlinkRelationship(new Uri(url), true);
 
         // Creating Hyperlink.
-        Hyperlink hyperlink = new Hyperlink();
-        hyperlink.Id = hyperlinkRelationship.Id;
+        Hyperlink hyperlink = new()
+        {
+            Id = hyperlinkRelationship.Id,
 
-        // Add to Viewed Hyperlinks.
-        hyperlink.History = OnOffValue.FromBoolean(true);
+            // Add to Viewed Hyperlinks.
+            History = OnOffValue.FromBoolean(true)
+        };
 
         // Creating Run.
-        Run run = this.AddRun(text, underline: true);
+        Run run = AddRun(text, underline: true);
 
         // Specifying the Color Class.
         run.RunProperties!.Color = new Color { ThemeColor = ThemeColorValues.Hyperlink };
