@@ -1,14 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using DotnetMVC.Data.MicrosoftLearn;
+﻿using DotnetMVC.Data.MicrosoftLearn;
 using DotnetMVC.Models.MicrosoftLearn;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace DotnetMVC.Controllers;
 
-public class AspsnippetsController(MvcMovieContext context) : Controller
+public class MicrosoftLearnController(ILogger<MicrosoftLearnController> logger, MvcMovieContext context) : Controller
 {
-
+    private readonly ILogger<MicrosoftLearnController> _logger = logger;
     private readonly MvcMovieContext _context = context;
 
     // GET: Movies
@@ -190,6 +190,4 @@ public class AspsnippetsController(MvcMovieContext context) : Controller
     {
         return _context.Movie.Any(e => e.Id == id);
     }
-
-
 }
