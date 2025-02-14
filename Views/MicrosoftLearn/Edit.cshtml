@@ -30,9 +30,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="@Model.Movie!.Genre" class="control-label"></label>
-                <select asp-for="@Model.Movie!.Genre" asp-items="Model.Genres">
-                    <option value="">All</option>
-                </select>
+                <select asp-for="@Model.Movie!.Genre" asp-items="Model.Genres"></select>
                 <span asp-validation-for="@Model.Movie!.Genre" class="text-danger"></span>
             </div>
             <div class="form-group">
